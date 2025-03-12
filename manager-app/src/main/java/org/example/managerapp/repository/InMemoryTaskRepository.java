@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 @Repository
@@ -31,6 +33,13 @@ public class InMemoryTaskRepository implements TaskRepository {
     @Override
     public List<Task> findAll() {
         return Collections.unmodifiableList(this.tasks);
+    }
+
+    @Override
+    public Optional<Task> findById(Integer id) {
+        return this.tasks.stream()
+                .filter(task -> Objects.equals(task.id(), id))
+                .findFirst();
     }
 
 }
