@@ -24,7 +24,7 @@
             <td th:text="${task.title}"></td>
             <td th:text="${task.description}"></td>
             <td th:text="${task.status}"></td>
-            <td th:text="${#dates.format(task.deadline, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${#temporals.format(task.deadline, 'yyyy-MM-dd HH:mm')}"></td>
             <td>
                 <a th:href="@{/tasks/{id}/edit(id=${task.id})}" class="btn btn-warning btn-sm">Edit</a>
                 <a th:href="@{/tasks/{id}/delete(id=${task.id})}" class="btn btn-danger btn-sm">Delete</a>
