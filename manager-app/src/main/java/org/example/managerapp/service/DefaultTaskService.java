@@ -2,11 +2,13 @@ package org.example.managerapp.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.managerapp.entity.Task;
+import org.example.managerapp.entity.TaskStatus;
 import org.example.managerapp.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,9 +22,18 @@ public class DefaultTaskService implements TaskService {
     }
 
     @Override
-    public Task findTaskById(int taskId) {
-        return this.taskRepository.findById(taskId)
-                .orElseThrow(() -> new NoSuchElementException("Task not found"));
+    public Optional<Task> findTaskById(int taskId) {
+        return this.taskRepository.findById(taskId);
+    }
+
+    @Override
+    public void deleteTaskById(Integer taskId) {
+        this.taskRepository.deleteById(taskId);
+    }
+
+    @Override
+    public Task createTask(String title, String description, TaskStatus status, LocalDateTime deadline) {
+        return this.taskRepository.save(new Task(null, title, description, status, deadline));
     }
 
 }
