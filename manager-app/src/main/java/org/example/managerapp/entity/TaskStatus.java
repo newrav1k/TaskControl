@@ -1,5 +1,5 @@
 package org.example.managerapp.entity;
 
-public enum Status {
+public enum TaskStatus {
     NEW, IN_PROGRESS, COMPLETED
 }
