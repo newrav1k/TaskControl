@@ -1,7 +1,24 @@
 package org.example.managerapp.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
-public record Task(Integer id, String title, String description, Status status, LocalDateTime deadline) {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Task {
+
+    private Integer id;
+
+    private String title;
+
+    private String description;
+
+    private TaskStatus status;
+
+    private LocalDateTime deadline;
 
 }

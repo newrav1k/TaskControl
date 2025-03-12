@@ -11,4 +11,8 @@ public interface TaskRepository {
 
     Optional<Task> findById(Integer id);
 
+    void deleteById(Integer id);
+
+    Task save(Task task);
+
 }
