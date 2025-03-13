@@ -1,13 +1,15 @@
 package org.example.managerapp.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.managerapp.entity.Task;
 import org.example.managerapp.payload.NewTaskPayload;
 import org.example.managerapp.service.TaskService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -25,16 +27,25 @@ public class TasksController {
     }
 
     @GetMapping("/create")
-    public String showCreateTask(@ModelAttribute Task task, Model model) {
-        model.addAttribute("task", task);
+    public String showCreateTask(Model model) {
+        model.addAttribute("task", new Task());
         return "/tasks/create-task";
     }
 
     @PostMapping("/create")
-    public String createTask(NewTaskPayload payload) {
-        Task task = this.taskService.createTask(payload.title(), payload.description(),
-                payload.status(), payload.deadline());
-        return "redirect:/tasks/list";
+    public String createTask(@Valid NewTaskPayload payload,
+                             BindingResult bindingResult) throws BindException {
+        if (bindingResult.hasErrors()) {
+            if (bindingResult instanceof BindException ex) {
+                throw ex;
+            } else {
+                throw new BindException(bindingResult);
+            }
+        } else {
+            Task task = this.taskService.createTask(payload.title(), payload.description(),
+                    payload.status(), payload.deadline());
+            return "redirect:/tasks/list";
+        }
     }
 
 }
