@@ -58,4 +58,17 @@ public class InMemoryTaskRepository implements TaskRepository {
         return task;
     }
 
+    @Override
+    public void updateTaskById(Integer id, String title, String description, TaskStatus status, LocalDateTime deadline) {
+        this.tasks.stream()
+                .filter(task -> Objects.equals(task.getId(), id))
+                .findFirst()
+                .ifPresent(task -> {
+                    task.setTitle(title);
+                    task.setDescription(description);
+                    task.setStatus(status);
+                    task.setDeadline(deadline);
+                });
+    }
+
 }
