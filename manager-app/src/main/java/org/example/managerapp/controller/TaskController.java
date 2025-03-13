@@ -2,8 +2,10 @@ package org.example.managerapp.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.managerapp.entity.Task;
+import org.example.managerapp.payload.NewTaskPayload;
 import org.example.managerapp.service.TaskService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +33,7 @@ public class TaskController {
     }
 
     @GetMapping("/delete")
-    public String delete() {
+    public String deleteTask() {
         return "/tasks/delete-task";
     }
 
@@ -44,6 +46,15 @@ public class TaskController {
     @GetMapping("/edit")
     public String editTask() {
         return "/tasks/edit-task";
+    }
+
+    @PostMapping("/edit")
+    public String editTask(@ModelAttribute(value = "task", binding = false) Task task,
+                           NewTaskPayload payload, Model model) {
+        model.addAttribute("task", task);
+        this.taskService.updateTask(task.getId(), payload.title(), payload.description(),
+                payload.status(), payload.deadline());
+        return "redirect:/tasks/list";
     }
 
 }
