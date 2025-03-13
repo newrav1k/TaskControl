@@ -30,9 +30,11 @@
 <div class="container">
     <div class="error-container">
         <div class="error-code" th:text="${errorCode}">404</div>
-        <div class="error-message" th:text="${errorMessage}">Page Not Found</div>
+        <ul>
+            <li class="error-message" data-th-each="error: ${errorMessage}" data-th-text="${error}"></li>
+        </ul>
         <div class="back-link">
-            <a th:href="@{/static}" class="btn btn-primary">Go to Home Page</a>
+            <a th:href="@{/tasks/create}" class="btn btn-primary">Вернуться на страницу создания задачи</a>
         </div>
     </div>
 </div>
