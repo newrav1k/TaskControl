@@ -36,4 +36,9 @@ public class DefaultTaskService implements TaskService {
         return this.taskRepository.save(new Task(null, title, description, status, deadline));
     }
 
+    @Override
+    public void updateTask(Integer id, String title, String description, TaskStatus status, LocalDateTime deadline) {
+        this.taskRepository.updateTaskById(id, title, description, status, deadline);
+    }
+
 }
