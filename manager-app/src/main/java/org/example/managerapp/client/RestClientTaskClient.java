@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class RestClientProductClient implements ProductClient {
+public class RestClientTaskClient implements ProductClient {
 
     private RestClient restClient;
 
