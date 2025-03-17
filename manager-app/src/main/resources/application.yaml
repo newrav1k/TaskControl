@@ -1,3 +1,8 @@
 spring:
   application:
     name: manager-app
+
+newrav1k:
+  services:
+    catalogue:
+      url: http://localhost:8081
