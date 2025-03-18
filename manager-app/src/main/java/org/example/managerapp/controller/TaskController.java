@@ -1,9 +1,9 @@
 package org.example.managerapp.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.managerapp.client.TaskClient;
 import org.example.managerapp.entity.Task;
 import org.example.managerapp.payload.NewTaskPayload;
-import org.example.managerapp.service.TaskService;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -23,13 +23,13 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class TaskController {
 
-    private final TaskService taskService;
+    private final TaskClient taskClient;
 
     private final MessageSource messageSource;
 
     @ModelAttribute("task")
     public Task getTask(@PathVariable("taskId") int taskId) {
-        return this.taskService.findTaskById(taskId)
+        return this.taskClient.findById(taskId)
                 .orElseThrow(() -> new NoSuchElementException("task.not.found"));
     }
 
@@ -45,7 +45,7 @@ public class TaskController {
 
     @PostMapping("/delete")
     public String deleteTask(@PathVariable("taskId") int taskId) {
-        this.taskService.deleteTaskById(taskId);
+        this.taskClient.deleteById(taskId);
         return "redirect:/tasks/list";
     }
 
@@ -58,7 +58,7 @@ public class TaskController {
     public String editTask(@ModelAttribute(value = "task", binding = false) Task task,
                            NewTaskPayload payload, Model model) {
         model.addAttribute("task", task);
-        this.taskService.updateTask(task.getId(), payload.title(), payload.description(),
+        this.taskClient.updateTask(task.getId(), payload.title(), payload.description(),
                 payload.status(), payload.deadline());
         return "redirect:/tasks/list";
     }

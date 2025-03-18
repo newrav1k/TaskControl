@@ -2,9 +2,9 @@ package org.example.managerapp.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.managerapp.client.TaskClient;
 import org.example.managerapp.entity.Task;
 import org.example.managerapp.payload.NewTaskPayload;
-import org.example.managerapp.service.TaskService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class TasksController {
 
-    private final TaskService taskService;
+    private final TaskClient taskClient;
 
     @GetMapping("/list")
     public String tasks(Model model) {
-        model.addAttribute("tasks", this.taskService.findAll());
+        model.addAttribute("tasks", this.taskClient.findAll());
         return "/tasks/list";
     }
 
@@ -42,7 +42,7 @@ public class TasksController {
                 throw new BindException(bindingResult);
             }
         } else {
-            Task task = this.taskService.createTask(payload.title(), payload.description(),
+            Task task = this.taskClient.createTask(payload.title(), payload.description(),
                     payload.status(), payload.deadline());
             return "redirect:/tasks/list";
         }
