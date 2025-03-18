@@ -5,12 +5,14 @@ import org.example.catalogueservice.entity.Task;
 import org.example.catalogueservice.entity.TaskStatus;
 import org.example.catalogueservice.repository.TaskRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class DefaultTaskService implements TaskService {
 
     private final TaskRepository taskRepository;
@@ -26,18 +28,26 @@ public class DefaultTaskService implements TaskService {
     }
 
     @Override
+    @Transactional
     public void deleteTaskById(Integer taskId) {
         this.taskRepository.deleteById(taskId);
     }
 
     @Override
+    @Transactional
     public Task createTask(String title, String description, TaskStatus status, LocalDateTime deadline) {
         return this.taskRepository.save(new Task(null, title, description, status, deadline));
     }
 
     @Override
+    @Transactional
     public void updateTask(Integer id, String title, String description, TaskStatus status, LocalDateTime deadline) {
-        this.taskRepository.updateTaskByIdAndTitleAndDescriptionAndStatusAndDeadline(id, title, description, status, deadline);
+        this.taskRepository.findById(id).ifPresent(task -> {
+            task.setTitle(title);
+            task.setDescription(description);
+            task.setStatus(status);
+            task.setDeadline(deadline);
+        });
     }
 
 }
