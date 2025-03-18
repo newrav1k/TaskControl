@@ -19,7 +19,7 @@ import java.util.NoSuchElementException;
 @RestController
 @RequestMapping("/task-api/tasks/{taskId:\\d+}")
 @RequiredArgsConstructor
-public class TaskController {
+public class RestTaskController {
 
     private final TaskService taskService;
 
