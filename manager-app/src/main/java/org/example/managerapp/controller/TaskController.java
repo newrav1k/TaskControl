@@ -58,7 +58,7 @@ public class TaskController {
     public String editTask(@ModelAttribute(value = "task", binding = false) Task task,
                            NewTaskPayload payload, Model model) {
         model.addAttribute("task", task);
-        this.taskClient.updateTask(task.getId(), payload.title(), payload.description(),
+        this.taskClient.updateTask(task.id(), payload.title(), payload.description(),
                 payload.status(), payload.deadline());
         return "redirect:/tasks/list";
     }

@@ -23,7 +23,7 @@
         <tr th:each="task : ${tasks}">
             <td th:text="${task.title}"></td>
             <td th:text="${task.description}"></td>
-            <td th:text="${task.status.getName()}"></td>
+            <td th:text="${task.status}"></td>
             <td th:text="${#temporals.format(task.deadline, 'yyyy-MM-dd HH:mm')}"></td>
             <td>
                 <a th:href="@{/tasks/{id}/edit(id=${task.id})}" class="btn btn-warning btn-sm">Редактировать</a>

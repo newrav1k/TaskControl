@@ -27,8 +27,7 @@ public class TasksController {
     }
 
     @GetMapping("/create")
-    public String showCreateTask(Model model) {
-        model.addAttribute("task", new Task());
+    public String showCreateTask() {
         return "/tasks/create-task";
     }
 
