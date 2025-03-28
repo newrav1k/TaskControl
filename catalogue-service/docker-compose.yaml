@@ -9,3 +9,10 @@ services:
       - 'POSTGRES_PASSWORD=catalogue'
     ports:
       - '5432:5432'
+
+  redis:
+    container_name: catalogue-redis
+    image: redis:latest
+    restart: always
+    ports:
+      - '6379:6379'
