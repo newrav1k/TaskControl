@@ -11,6 +11,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
@@ -18,7 +20,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "t_tasks")
-public class Task {
+public class Task implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -5349099619299747288L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

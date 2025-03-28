@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.example.catalogueservice.entity.Task;
 import org.example.catalogueservice.entity.TaskStatus;
 import org.example.catalogueservice.repository.TaskRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,11 +26,13 @@ public class DefaultTaskService implements TaskService {
     }
 
     @Override
+    @Cacheable(value = "task", key = "#taskId")
     public Optional<Task> findTaskById(int taskId) {
         return this.taskRepository.findById(taskId);
     }
 
     @Override
+    @CacheEvict(value = "task", key = "#taskId")
     @Transactional
     public void deleteTaskById(Integer taskId) {
         this.taskRepository.deleteById(taskId);
@@ -40,9 +45,10 @@ public class DefaultTaskService implements TaskService {
     }
 
     @Override
+    @CachePut(value = "task", key = "#taskId")
     @Transactional
-    public void updateTask(Integer id, String title, String description, TaskStatus status, LocalDateTime deadline) {
-        this.taskRepository.findById(id).ifPresent(task -> {
+    public void updateTask(Integer taskId, String title, String description, TaskStatus status, LocalDateTime deadline) {
+        this.taskRepository.findById(taskId).ifPresent(task -> {
             task.setTitle(title);
             task.setDescription(description);
             task.setStatus(status);

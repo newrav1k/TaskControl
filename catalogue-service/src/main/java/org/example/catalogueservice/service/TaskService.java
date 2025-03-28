@@ -16,6 +16,6 @@ public interface TaskService {
 
     Task createTask(String title, String description, TaskStatus status, LocalDateTime deadline);
 
-    void updateTask(Integer id, String title, String description, TaskStatus status, LocalDateTime deadline);
+    void updateTask(Integer taskId, String title, String description, TaskStatus status, LocalDateTime deadline);
 
 }
