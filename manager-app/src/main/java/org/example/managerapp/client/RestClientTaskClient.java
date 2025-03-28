@@ -2,10 +2,12 @@ package org.example.managerapp.client;
 
 import lombok.RequiredArgsConstructor;
 import org.example.managerapp.entity.Task;
-import org.example.managerapp.entity.TaskStatus;
+import org.example.managerapp.exception.BadRequestException;
 import org.example.managerapp.payload.NewTaskPayload;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
+import org.springframework.http.ProblemDetail;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 
 import java.time.LocalDateTime;
@@ -31,10 +33,14 @@ public class RestClientTaskClient implements TaskClient {
 
     @Override
     public Optional<Task> findById(int taskId) {
-        return Optional.ofNullable(this.restClient.get()
-                .uri("/task-api/tasks/{taskId}", taskId)
-                .retrieve()
-                .body(Task.class));
+        try {
+            return Optional.ofNullable(this.restClient.get()
+                    .uri("/task-api/tasks/{taskId}", taskId)
+                    .retrieve()
+                    .body(Task.class));
+        } catch (HttpClientErrorException.NotFound exception) {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -47,22 +53,32 @@ public class RestClientTaskClient implements TaskClient {
 
     @Override
     public Task createTask(String title, String description, String status, LocalDateTime deadline) {
-        return this.restClient.post()
-                .uri("/task-api/tasks/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(new NewTaskPayload(title, description, status, deadline))
-                .retrieve()
-                .body(Task.class);
+        try {
+            return this.restClient.post()
+                    .uri("/task-api/tasks/create")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(new NewTaskPayload(title, description, status, deadline))
+                    .retrieve()
+                    .body(Task.class);
+        } catch (HttpClientErrorException.BadRequest exception) {
+            ProblemDetail problemDetail = exception.getResponseBodyAs(ProblemDetail.class);
+            throw new BadRequestException((List<String>) problemDetail.getProperties().get("errors"));
+        }
     }
 
     @Override
     public void updateTask(Integer taskId, String title, String description, String status, LocalDateTime deadline) {
-        this.restClient.post()
-                .uri("/task-api/tasks/{taskId}/update", taskId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(new NewTaskPayload(title, description, status, deadline))
-                .retrieve()
-                .toBodilessEntity();
+        try {
+            this.restClient.post()
+                    .uri("/task-api/tasks/{taskId}/update", taskId)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(new NewTaskPayload(title, description, status, deadline))
+                    .retrieve()
+                    .toBodilessEntity();
+        } catch (HttpClientErrorException.BadRequest exception) {
+            ProblemDetail problemDetail = exception.getResponseBodyAs(ProblemDetail.class);
+            throw new BadRequestException((List<String>) problemDetail.getProperties().get("errors"));
+        }
     }
 
 }
