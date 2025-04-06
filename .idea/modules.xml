@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TaskControl.iml" filepath="$PROJECT_DIR$/TaskControl.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/catalogue-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/catalogue-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/manager-app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/manager-app.main.iml" />
     </modules>
   </component>
 </project>

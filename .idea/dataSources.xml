@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="catalogue@localhost" uuid="4bee2323-b9b3-418e-90e1-5d0ea4746f00">
+    <data-source source="LOCAL" name="catalogue@localhost" uuid="063721db-a20c-46f0-9c6b-ed4f29a0ae94">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
@@ -13,7 +13,7 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="0@localhost" uuid="28369adc-87b8-4152-a09d-7b43020f09ec">
+    <data-source source="LOCAL" name="0@localhost" uuid="6b34fafe-4fcc-43cc-9d6a-b2ab4b805696">
       <driver-ref>redis</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>jdbc.RedisDriver</jdbc-driver>
