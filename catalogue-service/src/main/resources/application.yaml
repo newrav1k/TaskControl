@@ -1,6 +1,12 @@
 spring:
   application:
     name: catalogue-service
+  security:
+    user:
+      name: catalogue
+      password: catalogue
+      roles:
+        - SERVICE
   jpa:
     hibernate:
       ddl-auto: update
