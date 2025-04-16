@@ -1,6 +1,14 @@
 spring:
   application:
     name: manager-app
+  datasource:
+    url: jdbc:postgresql://localhost:5432/manager-database
+    username: manager
+    password: manager
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    generate-ddl: true
+    show-sql: false
 
 newrav1k:
   services:
