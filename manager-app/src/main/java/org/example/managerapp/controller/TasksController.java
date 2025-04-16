@@ -27,7 +27,8 @@ public class TasksController {
     }
 
     @GetMapping("/create")
-    public String showCreateTask() {
+    public String showCreateTask(Model model) {
+        model.addAttribute("task", new NewTaskPayload());
         return "/tasks/create-task";
     }
 
@@ -41,8 +42,8 @@ public class TasksController {
                 throw new BindException(bindingResult);
             }
         } else {
-            Task task = this.taskClient.createTask(payload.title(), payload.description(),
-                    payload.status(), payload.deadline());
+            Task task = this.taskClient.createTask(payload.getTitle(), payload.getDescription(),
+                    payload.getStatus(), payload.getDeadline());
             return "redirect:/tasks/list";
         }
     }
