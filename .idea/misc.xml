@@ -4,6 +4,7 @@
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/catalogue-service" />
     <file type="web" url="file://$PROJECT_DIR$/manager-app" />
+    <file type="web" url="file://$PROJECT_DIR$/telegram-service" />
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="corretto-17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />

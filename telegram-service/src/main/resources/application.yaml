@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: telegram-service
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: notification-service
+
+app:
+  kafka:
+    topics:
+      notification-request: notification-request
+      notification-response: notification-response
