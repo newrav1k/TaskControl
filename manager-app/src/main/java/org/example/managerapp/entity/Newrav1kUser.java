@@ -41,6 +41,9 @@ public class Newrav1kUser implements UserDetails, Serializable {
     private Long id;
 
     @Column(unique = true, nullable = false)
+    private String username;
+
+    @Column(unique = true, nullable = false)
     private String email;
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -66,7 +69,7 @@ public class Newrav1kUser implements UserDetails, Serializable {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.username;
     }
 
 }
