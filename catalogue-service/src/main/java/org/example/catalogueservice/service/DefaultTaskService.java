@@ -3,6 +3,8 @@ package org.example.catalogueservice.service;
 import lombok.RequiredArgsConstructor;
 import org.example.catalogueservice.entity.Task;
 import org.example.catalogueservice.entity.TaskStatus;
+import org.example.catalogueservice.mapper.TaskMapper;
+import org.example.catalogueservice.payload.response.TaskResponse;
 import org.example.catalogueservice.repository.TaskRepository;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,20 +23,29 @@ public class DefaultTaskService implements TaskService {
 
     private final TaskRepository taskRepository;
 
+    private final TaskMapper taskMapper;
+
     @Override
-    public Iterable<Task> findAll() {
-        return this.taskRepository.findAll();
+    public List<TaskResponse> findAll() {
+        return this.taskRepository.findAll()
+                .stream()
+                .map(this.taskMapper::toTaskResponse)
+                .toList();
     }
 
     @Override
-    public Iterable<Task> findAllByUserId(Long userId) {
-        return this.taskRepository.findAllByUserId(userId);
+    public List<TaskResponse> findAllByUserId(Long userId) {
+        return this.taskRepository.findAllByUserId(userId)
+                .stream()
+                .map(this.taskMapper::toTaskResponse)
+                .toList();
     }
 
     @Override
     @Cacheable(value = "task", key = "#taskId")
-    public Optional<Task> findTaskById(Integer taskId) {
-        return this.taskRepository.findById(taskId);
+    public Optional<TaskResponse> findTaskById(Integer taskId) {
+        return this.taskRepository.findById(taskId)
+                .map(this.taskMapper::toTaskResponse);
     }
 
     @Override

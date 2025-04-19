@@ -2,17 +2,19 @@ package org.example.catalogueservice.service;
 
 import org.example.catalogueservice.entity.Task;
 import org.example.catalogueservice.entity.TaskStatus;
+import org.example.catalogueservice.payload.response.TaskResponse;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface TaskService {
 
-    Iterable<Task> findAll();
+    List<TaskResponse> findAll();
 
-    Iterable<Task> findAllByUserId(Long userId);
+    List<TaskResponse> findAllByUserId(Long userId);
 
-    Optional<Task> findTaskById(Integer taskId);
+    Optional<TaskResponse> findTaskById(Integer taskId);
 
     void deleteTaskById(Integer taskId);
 

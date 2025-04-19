@@ -2,8 +2,8 @@ package org.example.catalogueservice.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.catalogueservice.entity.Task;
 import org.example.catalogueservice.payload.UpdateTaskPayload;
+import org.example.catalogueservice.payload.response.TaskResponse;
 import org.example.catalogueservice.service.TaskService;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -34,13 +34,13 @@ public class RestTaskController {
     private final MessageSource messageSource;
 
     @ModelAttribute("task")
-    public Task task(@PathVariable Integer taskId) {
+    public TaskResponse task(@PathVariable Integer taskId) {
         return this.taskService.findTaskById(taskId)
                 .orElseThrow(() -> new NoSuchElementException("task.not.found"));
     }
 
     @GetMapping
-    public Task findTask(@ModelAttribute("task") Task task) {
+    public TaskResponse findTask(@ModelAttribute("task") TaskResponse task) {
         return task;
     }
 

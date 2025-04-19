@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.catalogueservice.entity.Task;
 import org.example.catalogueservice.payload.NewTaskPayload;
+import org.example.catalogueservice.payload.response.TaskResponse;
 import org.example.catalogueservice.service.TaskService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -25,12 +27,12 @@ public class RestTasksController {
     private final TaskService taskService;
 
     @GetMapping
-    public Iterable<Task> findAll() {
+    public List<TaskResponse> findAll() {
         return this.taskService.findAll();
     }
 
     @GetMapping("/list")
-    public Iterable<Task> findAllUserTasks(Long userId) {
+    public List<TaskResponse> findAllUserTasks(Long userId) {
         return this.taskService.findAllByUserId(userId);
     }
 
