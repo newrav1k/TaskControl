@@ -20,12 +20,14 @@ public class NewTaskPayload {
 
     @NotBlank(message = "{tasks.description.error.null}")
     @Size(max = 500, message = "{tasks.description.error.size}")
-    String description;
+    private String description;
 
     @NotNull
-    String status;
+    private String status;
 
     @NotNull
-    LocalDateTime deadline;
+    private LocalDateTime deadline;
+
+    private Long userId;
 
 }

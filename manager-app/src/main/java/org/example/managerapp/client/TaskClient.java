@@ -10,11 +10,13 @@ public interface TaskClient {
 
     List<Task> findAll();
 
-    Optional<Task> findById(int taskId);
+    List<Task> findAllByUserId(Long userId);
 
-    void deleteById(Integer taskId);
+    Optional<Task> findById(Integer taskId);
 
-    Task createTask(String title, String description, String status, LocalDateTime deadline);
+    void deleteById(Integer taskId, Long userId);
+
+    Task createTask(String title, String description, String status, LocalDateTime deadline, Long userId);
 
     void updateTask(Integer id, String title, String description, String status, LocalDateTime deadline);
 
