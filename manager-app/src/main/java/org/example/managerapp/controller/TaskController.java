@@ -2,10 +2,12 @@ package org.example.managerapp.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.managerapp.client.TaskClient;
+import org.example.managerapp.entity.Newrav1kUser;
 import org.example.managerapp.entity.Task;
-import org.example.managerapp.payload.NewTaskPayload;
+import org.example.managerapp.payload.UpdateTaskPayload;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,8 +29,13 @@ public class TaskController {
 
     private final MessageSource messageSource;
 
+    @ModelAttribute("userId")
+    public Long getUserId(@AuthenticationPrincipal Newrav1kUser user) {
+        return user.getId();
+    }
+
     @ModelAttribute("task")
-    public Task getTask(@PathVariable("taskId") int taskId) {
+    public Task getTask(@PathVariable("taskId") Integer taskId) {
         return this.taskClient.findById(taskId)
                 .orElseThrow(() -> new NoSuchElementException("task.not.found"));
     }
@@ -44,8 +51,9 @@ public class TaskController {
     }
 
     @PostMapping("/delete")
-    public String deleteTask(@PathVariable("taskId") int taskId) {
-        this.taskClient.deleteById(taskId);
+    public String deleteTask(@PathVariable("taskId") Integer taskId,
+                             @ModelAttribute("userId") Long userId) {
+        this.taskClient.deleteById(taskId, userId);
         return "redirect:/tasks/list";
     }
 
@@ -56,7 +64,8 @@ public class TaskController {
 
     @PostMapping("/edit")
     public String editTask(@ModelAttribute(value = "task", binding = false) Task task,
-                           NewTaskPayload payload, Model model) {
+                           @ModelAttribute("userId") Long userId,
+                           UpdateTaskPayload payload, Model model) {
         model.addAttribute("task", task);
         this.taskClient.updateTask(task.id(), payload.getTitle(), payload.getDescription(),
                 payload.getStatus(), payload.getDeadline());
