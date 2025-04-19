@@ -24,14 +24,19 @@ public class RestTasksController {
 
     private final TaskService taskService;
 
-    @GetMapping("/list")
-    public Iterable<Task> findAllTasks() {
+    @GetMapping
+    public Iterable<Task> findAll() {
         return this.taskService.findAll();
+    }
+
+    @GetMapping("/list")
+    public Iterable<Task> findAllUserTasks(Long userId) {
+        return this.taskService.findAllByUserId(userId);
     }
 
     @PostMapping("/create")
     public ResponseEntity<Task> createTask(@Valid @RequestBody NewTaskPayload payload,
-                                        BindingResult bindingResult, UriComponentsBuilder uriBuilder) throws BindException {
+                                           BindingResult bindingResult, UriComponentsBuilder uriBuilder) throws BindException {
         if (bindingResult.hasErrors()) {
             if (bindingResult instanceof BindException exception) {
                 throw exception;
@@ -39,7 +44,8 @@ public class RestTasksController {
                 throw new BindException(bindingResult);
             }
         } else {
-            Task task = this.taskService.createTask(payload.title(), payload.description(), payload.status(), payload.deadline());
+            Task task = this.taskService.createTask(payload.title(), payload.description(),
+                    payload.status(), payload.deadline(), payload.userId());
             return ResponseEntity.created(uriBuilder
                             .path("/task-api/tasks/{taskId}")
                             .build(Map.of("taskId", task.getId())))

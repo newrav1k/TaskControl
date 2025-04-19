@@ -10,11 +10,13 @@ public interface TaskService {
 
     Iterable<Task> findAll();
 
-    Optional<Task> findTaskById(int taskId);
+    Iterable<Task> findAllByUserId(Long userId);
+
+    Optional<Task> findTaskById(Integer taskId);
 
     void deleteTaskById(Integer taskId);
 
-    Task createTask(String title, String description, TaskStatus status, LocalDateTime deadline);
+    Task createTask(String title, String description, TaskStatus status, LocalDateTime deadline, Long userId);
 
     void updateTask(Integer taskId, String title, String description, TaskStatus status, LocalDateTime deadline);
 

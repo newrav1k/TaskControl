@@ -10,7 +10,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
     show-sql: true
+    generate-ddl: true
   datasource:
     url: jdbc:postgresql://localhost:5433/catalogue-database
     username: catalogue

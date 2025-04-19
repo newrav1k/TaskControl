@@ -26,8 +26,13 @@ public class DefaultTaskService implements TaskService {
     }
 
     @Override
+    public Iterable<Task> findAllByUserId(Long userId) {
+        return this.taskRepository.findAllByUserId(userId);
+    }
+
+    @Override
     @Cacheable(value = "task", key = "#taskId")
-    public Optional<Task> findTaskById(int taskId) {
+    public Optional<Task> findTaskById(Integer taskId) {
         return this.taskRepository.findById(taskId);
     }
 
@@ -40,14 +45,15 @@ public class DefaultTaskService implements TaskService {
 
     @Override
     @Transactional
-    public Task createTask(String title, String description, TaskStatus status, LocalDateTime deadline) {
-        return this.taskRepository.save(new Task(null, title, description, status, deadline));
+    public Task createTask(String title, String description, TaskStatus status, LocalDateTime deadline, Long userId) {
+        return this.taskRepository.save(new Task(null, title, description, status, deadline, userId));
     }
 
     @Override
     @CachePut(value = "task", key = "#taskId")
     @Transactional
-    public void updateTask(Integer taskId, String title, String description, TaskStatus status, LocalDateTime deadline) {
+    public void updateTask(Integer taskId, String title, String description,
+                           TaskStatus status, LocalDateTime deadline) {
         this.taskRepository.findById(taskId).ifPresent(task -> {
             task.setTitle(title);
             task.setDescription(description);

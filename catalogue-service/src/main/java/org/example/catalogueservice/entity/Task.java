@@ -1,5 +1,6 @@
 package org.example.catalogueservice.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -29,6 +30,7 @@ public class Task implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(nullable = false)
     private String title;
 
     private String description;
@@ -37,5 +39,8 @@ public class Task implements Serializable {
     private TaskStatus status;
 
     private LocalDateTime deadline;
+
+    @Column(nullable = false)
+    private Long userId;
 
 }

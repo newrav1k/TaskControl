@@ -3,7 +3,7 @@ package org.example.catalogueservice.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.catalogueservice.entity.Task;
-import org.example.catalogueservice.payload.NewTaskPayload;
+import org.example.catalogueservice.payload.UpdateTaskPayload;
 import org.example.catalogueservice.service.TaskService;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -46,7 +46,7 @@ public class RestTaskController {
 
     @PostMapping("/update")
     public ResponseEntity<Void> updateTask(@PathVariable("taskId") Integer taskId,
-                                           @Valid @RequestBody NewTaskPayload payload,
+                                           @Valid @RequestBody UpdateTaskPayload payload,
                                            BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {
             if (bindingResult instanceof BindException exception) {
@@ -55,8 +55,8 @@ public class RestTaskController {
                 throw new BindException(bindingResult);
             }
         } else {
-            this.taskService.updateTask(taskId, payload.title(),
-                    payload.description(), payload.status(), payload.deadline());
+            this.taskService.updateTask(taskId, payload.title(), payload.description(),
+                    payload.status(), payload.deadline());
             return ResponseEntity.noContent().build();
         }
     }
